@@ -36,8 +36,8 @@ export default defineConfig({
         registerType: 'autoUpdate',
         manifest: {
           name: 'ChatGPT-API Demo',
-          short_name: 'ChatGPT Demo',
-          description: 'A demo repo based on OpenAI API',
+          short_name: 'SmartGPT Demo',
+          description: 'Produced by BNU team',
           theme_color: '#212129',
           background_color: '#ffffff',
           icons: [

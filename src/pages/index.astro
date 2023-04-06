@@ -9,7 +9,7 @@ import 'katex/dist/katex.min.css'
 import 'highlight.js/styles/atom-one-dark.css'
 ---
 
-<Layout title="ChatGPT API Demo">
+<Layout title="SmartGPT Tutor">
   <main >
     <Header />
     <Generator client:load />
@@ -19,6 +19,12 @@ import 'highlight.js/styles/atom-one-dark.css'
 </Layout>
 
 <script>
+
+
+const Jarvis = new Artyom()
+
+Jarvis.say("Hello World !")
+
 async function checkCurrentAuth() {
   const password = localStorage.getItem('pass')
   const response = await fetch('/api/auth', {

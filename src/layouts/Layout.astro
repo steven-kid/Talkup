@@ -17,6 +17,8 @@ const { title } = Astro.props;
     <meta name="theme-color" content="#212129">
     <meta name="generator" content={Astro.generator}>
     <title>{title}</title>
+    <img src="../../GIF/中国女性1.gif" class ="person"/>
+    <div class="person-hide"></div>
     <meta name="description" content="A simple blog">
     {
       import.meta.env.HEAD_SCRIPTS
@@ -41,7 +43,7 @@ const { title } = Astro.props;
 
 <style is:global>
   :root {
-    --c-bg: #fbfbfb;
+    --c-bg: #fefefe;
     --c-fg: #444444;
     --c-scroll: #d9d9d9;
     --c-scroll-hover: #bbbbbb;
@@ -56,7 +58,7 @@ const { title } = Astro.props;
 
   html.dark {
     --c-bg: #212129;
-    --c-fg: #ddddf0;
+    --c-fg: #fefefe;
     --c-scroll: #333333;
     --c-scroll-hover: #555555;
   }
@@ -64,7 +66,25 @@ const { title } = Astro.props;
   main {
     max-width: 70ch;
     margin: 0 auto;
+    margin-right: 120px;
     padding: 6rem 2rem 4rem;
+  }
+
+  .person{
+    position: fixed;
+    left: 85px;
+    top: 20px;
+    width: 500px;
+  }
+
+  .person-hide{
+    position: fixed;
+    left: 85px;
+    top: 20px;
+    width: 500px;
+    height: 730px;
+    border: 6px solid #ffffff;
+    z-index: 10;
   }
 
   ::-webkit-scrollbar {
@@ -81,6 +101,8 @@ const { title } = Astro.props;
   ::-webkit-scrollbar-track {
     background-color: var(--c-bg);
   }
+
+
 </style>
 
 <script>

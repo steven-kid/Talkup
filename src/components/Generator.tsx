@@ -2,6 +2,7 @@ import { Index, Show, createSignal, onCleanup, onMount } from 'solid-js'
 import { useThrottleFn } from 'solidjs-use'
 import { generateSignature } from '@/utils/auth'
 import IconClear from './icons/Clear'
+import IconVoice from './icons/Voice'
 import MessageItem from './MessageItem'
 import SystemRoleSettings from './SystemRoleSettings'
 import ErrorMessageItem from './ErrorMessageItem'
@@ -43,7 +44,7 @@ export default () => {
     const inputValue = inputRef.value
     if (!inputValue)
       return
-
+    // artyom.say(inputValue)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     if (window?.umami) umami.trackEvent('chat_generate')
@@ -231,6 +232,9 @@ export default () => {
           />
           <button onClick={handleButtonClick} disabled={systemRoleEditing()} gen-slate-btn>
             Send
+          </button>
+          <button title="Clear" onClick={clear} disabled={systemRoleEditing()} gen-slate-btn>
+            <IconVoice />
           </button>
           <button title="Clear" onClick={clear} disabled={systemRoleEditing()} gen-slate-btn>
             <IconClear />
