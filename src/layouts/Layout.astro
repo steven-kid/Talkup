@@ -13,12 +13,24 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="stylesheet" href="../css/base.css" />
     <link rel="mask-icon" href="/icon.svg" color="#FFFFFF">
+    <script async src="https://hm.baidu.com/hm.js?85fad12bb9a6dab448f4eff0a19299a5"></script>
     <meta name="theme-color" content="#212129">
     <meta name="generator" content={Astro.generator}>
     <title>{title}</title>
-    <img src="../../GIF/中国女性1.gif" class ="person"/>
+    <img src="../../GIF/老太太1.gif" class ="person"/>
     <div class="person-hide"></div>
+    <nav class="nav">
+        Role
+        <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-1">
+        <label class="nav-item" for="nav-item-opt-mode-1">Parent</label>
+        <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-2" checked>
+        <label class="nav-item" for="nav-item-opt-mode-2">Teacher</label>
+        <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-3">
+        <label class="nav-item" for="nav-item-opt-mode-3">Friend</label>
+        <div class="tracker"></div>
+    </nav>
     <meta name="description" content="A simple blog">
     {
       import.meta.env.HEAD_SCRIPTS
@@ -48,6 +60,11 @@ const { title } = Astro.props;
     --c-scroll: #d9d9d9;
     --c-scroll-hover: #bbbbbb;
     scrollbar-color: var(--c-scrollbar) var(--c-bg);
+    --bg-color: #eaecf0;
+    --main-color: #90aae8;
+    --nav-item-width: 150px;
+    --nav-item-height: 40px;
+    --nav-item-border-width: 4px;
   }
 
   html {
@@ -74,16 +91,16 @@ const { title } = Astro.props;
     position: fixed;
     left: 85px;
     top: 20px;
-    width: 500px;
+    width: 430px;
   }
 
   .person-hide{
     position: fixed;
-    left: 85px;
+    left: 84px;
     top: 20px;
-    width: 500px;
-    height: 730px;
-    border: 6px solid #ffffff;
+    width: 432px;
+    height: 630px;
+    border: 8px solid #ffffff;
     z-index: 10;
   }
 
@@ -102,10 +119,112 @@ const { title } = Astro.props;
     background-color: var(--c-bg);
   }
 
+  .user{
+    background-image: url(../../public/my_picture.jpg);
+    background-size: 27px;
+  }
+
+  .assistant{
+    background-image: url(../../public/pwa-192.png);
+    background-size: 30px;
+  }
+
+  .nav {
+    position: fixed;
+    background: white;
+    border-radius: 24px;
+    font-size: 0;
+    bottom: 50px;
+    left: 100px;
+    padding: var(--nav-item-border-width);
+    
+    font-weight: bolder;
+    z-index: 1;
+}
+
+.nav-item {
+    width: var(--nav-item-width);
+    height: var(--nav-item-height);
+    font-size: 20px;
+    color: var(--main-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: color .3s ease-in-out;
+}
+
+.nav>input[type="radio"] {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.nav>input[type="radio"]:checked+label {
+    color: white;
+}
+
+.nav>input[type=radio]:hover:not(:checked) + label{
+    color: #305ecb;
+}
+
+.tracker {
+    width: var(--nav-item-width);
+    height: var(--nav-item-height);
+    background: var(--main-color);
+    z-index: -1;
+    position: absolute;
+    left: var(--nav-item-border-width);
+    top: var(--nav-item-border-width);
+    border-radius: 24px;
+    transition: transform .3s ease-in-out;
+}
+
+#nav-item-opt-volume-2:checked~.tracker, #nav-item-opt-speed-2:checked~.tracker, #nav-item-opt-mode-2:checked~.tracker {
+    transform: translateX(calc(var(--nav-item-width)));
+}
+
+#nav-item-opt-volume-3:checked~.tracker, #nav-item-opt-speed-3:checked~.tracker, #nav-item-opt-mode-3:checked~.tracker {
+    transform: translateX(calc(var(--nav-item-width)*2));
+}
 
 </style>
 
 <script>
+
+let tempGif = 1
+const parent = document.querySelector('#nav-item-opt-mode-1')
+const teacher = document.querySelector('#nav-item-opt-mode-2')
+const friend = document.querySelector('#nav-item-opt-mode-3')
+const person = document.querySelector('.person')
+
+const change = () => {
+    if(tempGif === 1)
+    {
+        tempGif = 2;
+    } else {
+        tempGif = 1;
+    }
+}
+
+parent.addEventListener('click', () => {
+    change()
+    // print(tempGif)
+    person.src = `./../GIF/老太太${tempGif}.gif`
+})
+
+teacher.addEventListener('click', () => {
+    change()
+    // print(tempGif)
+    person.src = `./../GIF/老太太${tempGif}.gif`
+})
+
+friend.addEventListener('click', () => {
+    change()
+    // print(tempGif)
+    person.src = `./../GIF/老太太${tempGif}.gif`
+})
+
 const initTheme = () => {
   const darkSchema
     = window.matchMedia

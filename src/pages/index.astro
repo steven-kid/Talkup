@@ -20,11 +20,6 @@ import 'highlight.js/styles/atom-one-dark.css'
 
 <script>
 
-
-const Jarvis = new Artyom()
-
-Jarvis.say("Hello World !")
-
 async function checkCurrentAuth() {
   const password = localStorage.getItem('pass')
   const response = await fetch('/api/auth', {
@@ -41,4 +36,12 @@ async function checkCurrentAuth() {
     window.location.href = '/password'
 }
 checkCurrentAuth()
+let correctionBtns = document.querySelectorAll('.correction')
+// setTimeout(() => {correctionBtns = document.querySelectorAll('.correction')}, 1000);
+// console.log(correctionBtns)
+for (let i = 0; i < correctionBtns.length; i ++){
+    correctionBtns[i].addEventListener('click',() => {
+        console.log(i)
+    })
+}
 </script>
