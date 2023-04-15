@@ -56,7 +56,7 @@ export class AhoCorasick {
     }
   }
   search(text) {
-    let currentNode = this.root;
+    let currentNode = this.root
     let results = new Set();
     for (let i = 0; i < text.length; i++) {
       const char = text[i];
@@ -379,7 +379,7 @@ export default () => {
         content: inputValue,
       },
     ]);
-    console.log(window.speechSynthesis.getVoices());
+    // console.log(window.speechSynthesis.getVoices());
 
     if (ac.detect(inputValue).hasSensitiveWords) {
     //   alert()
@@ -470,9 +470,9 @@ export default () => {
           const char = decoder.decode(value);
           if (char === "x\n" && currentAssistantMessage().endsWith("\n"))
             continue;
-
           if (char) {
             tempWords += char;
+            // 每句结束再开始读
             if (
               char.endsWith(",") ||
               char.endsWith(".") ||
@@ -480,10 +480,8 @@ export default () => {
               char.endsWith("!")
             ) {
               let utterance = new SpeechSynthesisUtterance(tempWords);
-              console.log(speechSynthesis.getVoices());
               utterance.lang = "";
-              console.log(tempWords)
-            //   window.speechSynthesis.cancel();
+              // 调用语音合成api
               speechSynthesis.speak(utterance);
               tempWords = "";
             }
@@ -534,7 +532,7 @@ export default () => {
       document.querySelector(".gen-textarea").textContent =
         result[0].transcript;
       setTimeout(() => {
-        console.log(result[0].transcript);
+        // console.log(result[0].transcript);
         handleButtonClick();
       }, 500);
     };

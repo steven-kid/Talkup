@@ -210,19 +210,29 @@ const change = () => {
 parent.addEventListener('click', () => {
     change()
     // print(tempGif)
+
     person.src = `./../GIF/老太太${tempGif}.gif`
+    setTimeout(() => {
+        // person.src = './../GIF/老太太静态.png'
+    }, 3000)
 })
 
 teacher.addEventListener('click', () => {
     change()
-    // print(tempGif)
+    console.log('here')
     person.src = `./../GIF/老太太${tempGif}.gif`
+    setTimeout(() => {
+        // person.src = './../GIF/老太太静态.png'
+    }, 3000)
 })
 
 friend.addEventListener('click', () => {
     change()
     // print(tempGif)
     person.src = `./../GIF/老太太${tempGif}.gif`
+    setTimeout(() => {
+        // person.src = './../GIF/老太太静态.png'
+    }, 3000)
 })
 
 const initTheme = () => {
@@ -241,4 +251,14 @@ const initTheme = () => {
 }
 
 initTheme()
+
+let words = new SpeechSynthesisUtterance("Hello my name is Shirley, I am your personal oral English tutor, I am willing help you with your spoken english!");
+window.speechSynthesis.cancel();
+speechSynthesis.speak(words);
+console.log(person)
+person.src = `./../GIF/老太太1.gif`
+setTimeout(() => {
+    // person.src = './../GIF/老太太静态.png'
+}, 7000)
+
 </script>
