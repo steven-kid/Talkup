@@ -1,140 +1,111 @@
-# ChatGPT-API Demo
+# TalkUp
 
-English | [简体中文](./README.zh-CN.md)
+<p align="center">
+   🌐 <a href="https://chatglm.cn/blog" target="_blank">Blog</a> • 🤗 <a href="https://huggingface.co/THUDM/chatglm-6b" target="_blank">HF Repo</a> • 👻 
+</p>
 
-A demo repo based on [OpenAI GPT-3.5 Turbo API.](https://platform.openai.com/docs/guides/chat)
+## 介绍
+本仓库用于存放**TalkUp**（基于Chatgpt-Demo）进行修改的网页前端
 
-**🍿 Live preview**: https://chatgpt.ddiu.me
+大语言模型基于[ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B) 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。
 
-> ⚠️ Notice: Our API Key limit has been exhausted. So the demo site is not available now.
+页面设计基于 [Chatgpt-Demo](https://github.com/anse-app/chatgpt-demo)
 
-![chat-logo](https://cdn.staticaly.com/gh/yzh990918/static@master/chat-logo.webp)
+为达成智能教育的目标，本项目利用自然语言处理技术复现微调并训练符合英语课标要求的**大型语言模型**、导入包含英文课本英文实际对话的数据库、设计语法纠错与发音纠正算法，并利用数据挖掘与机器学习算法实现学生个性化学习，而开发的一款英语口语在线练习平台。
 
+该平台提供基本的英语口语对话、对话人物选择、语法纠错、敏感词过滤与健康话题引导功能，支持生成学生个性化题目，导出学生个性化学习报告，旨在为欠发达地区学生提供优质的英语学习资源，助力以“**优师计划**”为代表的乡村教师开展英语教学活动。
 
+![TalkUp.png](https://s2.loli.net/2023/07/27/zqULlIkE3j19hrH.png)
 
-## Running Locally
+## 研究目标
+本项目旨在积极响应国家“推进教育公平，共享优质资源”号召，以为我国欠发达地区学生提供优质的英语口语学习资源、助力“优师计划”英语教师提高教师数字素养，开展英语教学为研究目的，通过结合已有的前沿人工智能技术，改进与训练更优质的大型语言模型、提高优化语法纠错，并利用数据挖掘技术，开发出一款个性化的、优质且极富吸引力的在线英语口语练习平台。
 
-### Pre environment
-1. **Node**: Check that both your development environment and deployment environment are using `Node v18` or later. You can use [nvm](https://github.com/nvm-sh/nvm) to manage multiple `node` versions locally。
-   ```bash
-    node -v
-   ```
-2. **PNPM**: We recommend using [pnpm](https://pnpm.io/) to manage dependencies. If you have never installed pnpm, you can install it with the following command:
-   ```bash
-    npm i -g pnpm
-   ```
-3. **OPENAI_API_KEY**: Before running this application, you need to obtain the API key from OpenAI. You can register the API key at [https://beta.openai.com/signup](https://beta.openai.com/signup).
+<p align="center">
+<img src="https://github.com/steven-kid/TalkUP-LLM/assets/96154058/9f0008b8-6313-4c21-b5fa-a5bde6c12728"/>
+</p>
 
-### Getting Started
+该平台可实现多角色、多场景的人物对话模型的选择，提供符合课程要求的英语口语对话功能，对话过程中支持敏感词检测和健康话题引导、语法纠错、，结合学生练习情况可生成学生个性化题目，学习报告。
 
-1. Install dependencies
-   ```bash
-    pnpm install
-   ```
-2. Copy the `.env.example` file, then rename it to `.env`, and add your [OpenAI API key](https://platform.openai.com/account/api-keys) to the `.env` file.
-   ```bash
-    OPENAI_API_KEY=sk-xxx...
-   ```
-3. Run the application, the local project runs on `http://localhost:3000/`
-   ```bash
-    pnpm run dev
-   ```
+## 现有架构设计
 
-## Deploy
+<p align="center">
+<img src="https://github.com/steven-kid/TalkUP-LLM/assets/96154058/34ebd147-a50a-44b5-82a5-044ecf60b3bc"/ width="400px">
+</p>
 
-### Deploy With Vercel
+## 现实现功能&预期功能
+人物角色选择
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys)
+<p align="center">
+<img width="599" alt="image" src="https://github.com/steven-kid/TalkUP-LLM/assets/96154058/b43c045e-12f0-4af4-86da-0b1574d703c4">
+</p>
 
+敏感词检测
 
+<p align="center">
+<img width="399" alt="image" src="https://github.com/steven-kid/TalkUP-LLM/assets/96154058/c50d8526-636c-4343-9e76-808cef39c047">
+</p>
 
-> #### 🔒 Need website password?
-> 
-> Deploy with the [`SITE_PASSWORD`](#environment-variables)
-> 
-> <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fddiu8081%2Fchatgpt-demo&env=OPENAI_API_KEY&env=SITE_PASSWORD&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys" alt="Deploy with Vercel" target="_blank"><img src="https://vercel.com/button" alt="Deploy with Vercel" height=24 style="vertical-align: middle; margin-right: 4px;"></a>
+语法纠错示例
+<p align="center">
+<img width="399" alt="image" src="https://github.com/steven-kid/TalkUP-LLM/assets/96154058/b5ca09d3-aa09-436a-b729-c900372b01a1">
+</p>
 
-![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.4wzfb79qt7k0.webp)
+个性化习题
 
+个性化报告
 
-### Deploy With Netlify
+## 协议
+本仓库的代码依照 [Apache-2.0](LICENSE) 协议开源，ChatGLM-6B 模型的权重的使用则需要遵循 [Model License](MODEL_LICENSE)。ChatGLM-6B 权重对学术研究**完全开放**，在填写[问卷](https://open.bigmodel.cn/mla/form)进行登记后**亦允许免费商业使用**。
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ddiu8081/chatgpt-demo#OPENAI_API_KEY=&HTTPS_PROXY=&OPENAI_API_BASE_URL=&HEAD_SCRIPTS=&SECRET_KEY=&OPENAI_API_MODEL=&SITE_PASSWORD=)
+## 参考文献
+[1] 教育部等九部门. (2021). 《中西部欠发达地区优秀教师定向培养计划》. 教育部等九部门.
 
-**Step-by-step deployment tutorial:**
+[2] 教育部. (2020). 教育部关于加强“三个课堂”应用的指导意见. 教科技〔2020〕3号.
 
-1. [Fork](https://github.com/ddiu8081/chatgpt-demo/fork) this project，Go to [https://app.netlify.com/start](https://app.netlify.com/start) new Site, select the project you `forked` done, and connect it with your `GitHub` account.
+[3] 刘娟娟. (2022). 乡村振兴背景下农村英语口语教学面临的机遇和挑战[J]. 名师在线, (18), 29-31.
 
-![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.3nlt4hgzb16o.webp)
+[4] Alpaca. (2023). A Strong, Replicable Instruction-Following Model. Retrieved from https://github.com/tatsu-lab/stanford_alpaca
 
-![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230310/image.5fhfouap270g.webp)
+[5] 教育部. (2022). 推进教育公平 共享优质教育. 人民日报. Retrieved from http://www.moe.gov.cn/jyb_xwfb/moe_2082/2022/2022_zl11/202205/t20220505_624723.html
 
+[6] 黄国栋, 徐久珺, 马传香. (2021). 基于BERT-Encoder和数据增强的语法纠错模型[J]. 湖北大学学报(自然科学版), 1-7.
 
-2. Select the branch you want to deploy, then configure environment variables in the project settings.
+[7] 王蕊. (2021). 基于神经机器翻译的英语语法错误纠正方法分析[J]. 自动化技术与应用, 40(08), 57-60+74.
 
-![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230311/image.gfs9lx8c854.webp)
+[8] 邓俊锋, 朱聪慧, 赵铁军. (2020). 基于Back-translation的语法错误纠正[J]. 智能计算机与应用, 10(06), 187-190.
 
-3. Select the default build command and output directory, Click the `Deploy Site` button to start deploying the site。
+[9] 董权. (2019). 基于机器学习的自动发音检错系统研究[D]. 东华大学. DOI: 10.27012/d.cnki.gdhuu.2019.000022.
 
-![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230311/image.4jky9e1wbojk.webp)
+[10] 高源. (2018). 基于音素的语音可懂度评价方法的研究与实现[D]. 北京工业大学.
 
+[11] Wang, J., & Gu, F. (2022). An Automatic Error Correction Method for English Composition Grammar Based on Multilayer Perceptron[J]. Mathematical Problems in Engineering, 2022, 1-7.
 
-### Deploy with Docker
-Before deploying the app, please make sure `.env` is configured normally.
+[12] 涂晴宇. (2019). 面向人机交互的语音情感识别与文本敏感词检测[D]. 长沙理工大学. DOI: 10.26985/d.cnki.gcsjc.2019.000026.
 
-```bash
-# build
-docker-compose build .
-# run
-docker-compose up -d
-# stop
-docker-compose down
-```
+[13] Alibaba at IJCNLP-2017 Task 1. (2018). Embedding Grammatical Features into LSTMs for Chinese Grammatical Error Diagnosis Task: NLPTEA-2018 Task1（top 1.
 
-### Deploy on more servers
+[14] Devlin, J., Chang, M. W., Lee, K., & Toutanova, K. (2018). Bert: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805.
 
-Please refer to the official deployment documentation：https://docs.astro.build/en/guides/deploy
+[15] Rozovskaya, A., & Roth, D. (2016, August). Grammatical error correction: Machine translation and classifiers. In Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (pp. 2205-2215).
 
-## Environment Variables
+[16] Ge, T., Wei, F., & Zhou, M. (2018). Reaching human-level performance in automatic grammatical error correction: An empirical study. arXiv preprint arXiv:1807.01270.
 
-You can control the website through environment variables.
+[17] Graham, S. (2017). Research into practice: The influence of discourse and oral activities on second language motivation. Language Teaching, 50(1), 1-21.
 
-| Name | Description | Default |
-| --- | --- | --- |
-| `OPENAI_API_KEY` | Your API Key for OpenAI. | `null` |
-| `HTTPS_PROXY` | Provide proxy for OpenAI API. e.g. `http://127.0.0.1:7890` | `null` |
-| `OPENAI_API_BASE_URL` | Custom base url for OpenAI API. | `https://api.openai.com` |
-| `HEAD_SCRIPTS` | Inject analytics or other scripts before `</head>` of the page | `null` |
-| `SECRET_KEY` | Secret string for the project. Use for generating signatures for API calls | `null` |
-| `SITE_PASSWORD` | Set password for site. If not set, site will be public | `null` |
-| `OPENAI_API_MODEL` | ID of the model to use. [List models](https://platform.openai.com/docs/api-reference/models/list) | `gpt-3.5-turbo` |
+[18] UNESCO. (2020). Education for All Global Monitoring Report 2020: Inclusion and Education. UNESCO Publishing.
 
+[19] VanLehn, K. (2011). The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems. Educational Psychologist, 46(4), 197-221.
 
-## Frequently Asked Questions
+[20] Woolf, B. P. (2009). Building intelligent interactive tutors: Student-centered strategies for revolutionizing e-learning. Morgan Kaufmann.
 
-Q: TypeError: fetch failed (can't connect to OpenAI Api)
+[21] Dede, C., Ketelhut, D. J., Whitehouse, P., Breit, L., & McCloskey, E. M. (2005). An overview of current findings on the efficacy of advanced learning technologies. In Towards a new generation of educational environments (pp. 5-16). Sense Publishers, Rotterdam.
 
-A: Configure environment variables `HTTPS_PROXY`，reference: https://github.com/ddiu8081/chatgpt-demo/issues/34
+[22] Papastergiou, M. (2009). Digital Game-Based Learning in high school Computer Science education: Impact on educational effectiveness and student motivation. Computers & Education, 52(1), 1-12.
 
-Q: throw new TypeError(${context} is not a ReadableStream.)
+[23] Byram, M. (2008). From foreign language education to education for intercultural citizenship: Essays and reflections. Multilingual Matters.
 
-A: The Node version needs to be `v18` or later，reference: https://github.com/ddiu8081/chatgpt-demo/issues/65
+[24] Neri, A., Cucchiarini, C., & Strik, H. (2008). The effectiveness of computer-based speech corrective feedback for improving segmental quality in L2 Dutch. ReCALL, 20(2), 225-243.
 
-Q: Accelerate domestic access without the need for proxy deployment tutorial?
+[25] Hinton, G., Deng, L., Yu, D., Dahl, G. E., Mohamed, A. R., Jaitly, N., ... & Kingsbury, B. (2012). Deep neural networks for acoustic modeling in speech recognition: The shared views of four research groups. IEEE Signal Processing Magazine, 29(6), 82-97.
 
-A: You can refer to this tutorial: https://github.com/ddiu8081/chatgpt-demo/discussions/270
-
-Q: `PWA` is not working?
-
-A: Current `PWA` does not support deployment on Netlify, you can choose vercel or node deployment.
-## Contributing
-
-This project exists thanks to all those who contributed.
-
-Thank you to all our supporters!🙏
-
-[![img](https://contributors.nn.ci/api?repo=ddiu8081/chatgpt-demo)](https://github.com/ddiu8081/chatgpt-demo/graphs/contributors)
-
-## License
-
-MIT © [ddiu8081](https://github.com/ddiu8081/chatgpt-demo/blob/main/LICENSE)
+[26] Woolf, B. P. (2009). Building intelligent interactive tutors: Student-centered strategies for revolutionizing e-learning. Morgan Kaufmann.
