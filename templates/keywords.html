@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Keyword Count</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Keyword Count</h1>
+    <ul class="list-group">
+        {% for word, count in keyword_count.items() %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ word }}
+                <span class="badge badge-primary badge-pill">{{ count }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="mt-3">
+        <img src="{{ url_for('plot_keywords') }}" alt="Keyword Count Plot">
+    </div>
+</div>
+</body>
+</html>

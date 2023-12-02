@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>TalkUp App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/quiz-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'system-ui';
+    }
+
+    :root {
+      --c-bg: #fefefe;
+      --c-fg: #444444;
+      --c-scroll: #d9d9d9;
+      --c-scroll-hover: #bbbbbb;
+      scrollbar-color: var(--c-scrollbar) var(--c-bg);
+      --bg-color: #eaecf0;
+      --main-color: #90aae8;
+      --nav-item-width: 150px;
+      --nav-item-height: 40px;
+      --nav-item-border-width: 4px;
+    }
+
+    html {
+      font-family: system-ui, sans-serif;
+      background-color: var(--c-bg);
+      color: var(--c-fg);
+    }
+
+    html.dark {
+      --c-bg: #212129;
+      --c-fg: #fefefe;
+      --c-scroll: #333333;
+      --c-scroll-hover: #555555;
+    }
+
+    .custom-bg {
+      background-color: #eef0f3 !important;
+      color: #757575 !important;
+    }
+
+    .blur-background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(255, 255, 255, 0.5);
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .username-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(140, 205, 234, 0.7);
+      padding: 5px 15px;
+      border-radius: 15px;
+      font-weight: bold;
+    }
+
+    .user-message {
+      color: #000;
+    }
+
+    .system-reply {
+      color: #888;
+    }
+
+    .person {
+      /* position: fixed;
+      left: 105px;
+      top: 80px; */
+      width: 350px;
+      margin-right: 140px;
+      display: inline-block;
+      position: relative;
+    }
+
+    .person-hide {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 352px;
+      height: 514px;
+      border: 8px solid #fff;
+      z-index: 10;
+    }
+
+    .nav {
+      position: absolute;
+      background: white;
+      border-radius: 24px;
+      font-size: 0;
+      margin-top: 20px;
+      padding: var(--nav-item-border-width);
+      font-weight: bolder;
+      z-index: 1;
+    }
+
+    @media screen and (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+
+      .person {
+        margin-right: 0;
+      }
+
+    }
+
+    .nav-item {
+      width: var(--nav-item-width);
+      height: var(--nav-item-height);
+      font-size: 20px;
+      color: var(--main-color);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: color .3s ease-in-out;
+    }
+
+    .nav>input[type="radio"] {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    .nav>input[type="radio"]:checked+label {
+      color: white;
+    }
+
+    .nav>input[type=radio]:hover:not(:checked)+label {
+      color: #305ecb;
+    }
+
+    .tracker {
+      width: var(--nav-item-width);
+      height: var(--nav-item-height);
+      background: var(--main-color);
+      z-index: -1;
+      position: absolute;
+      left: var(--nav-item-border-width);
+      top: var(--nav-item-border-width);
+      border-radius: 24px;
+      transition: transform .3s ease-in-out;
+    }
+
+    #nav-item-opt-volume-2:checked~.tracker,
+    #nav-item-opt-speed-2:checked~.tracker,
+    #nav-item-opt-mode-2:checked~.tracker {
+      transform: translateX(calc(var(--nav-item-width)));
+    }
+
+    #nav-item-opt-volume-3:checked~.tracker,
+    #nav-item-opt-speed-3:checked~.tracker,
+    #nav-item-opt-mode-3:checked~.tracker {
+      transform: translateX(calc(var(--nav-item-width)*2));
+    }
+
+    .gpt-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-right: 0.25rem;
+    }
+
+    .gpt-subtitle {
+      font-size: 2rem;
+      font-weight: 800;
+      background-clip: text;
+      background-image: linear-gradient(to right, #22d3ff, #14b8a6);
+      -webkit-background-clip: text;
+      /* 兼容性前缀，如果需要的话 */
+      -webkit-text-fill-color: transparent;
+      /* 兼容性前缀，如果需要的话 */
+    }
+
+    .gen-slate-btn {
+      /* height: 3rem;
+      padding: 1rem 1rem 0.5rem;
+      background-color: rgba(112, 128, 144, 0.15); */
+      border-radius: 0.125rem;
+      border: none;
+    }
+
+    .gen-slate-btn::hover {
+      background-color: rgba(112, 128, 144, 0.2);
+    }
+
+    .gen-text-wrapper {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      grid-gap: 0.5rem;
+      gap: 0.5rem;
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    .gen-textarea,
+    [gen-textarea=""] {
+      width: 100%;
+      min-height: 3rem;
+      max-height: 9rem;
+      resize: none;
+      scroll-padding: 8px;
+      border-radius: 0.125rem;
+      --un-bg-opacity: 1;
+      background-color: rgba(148, 163, 184, var(--un-bg-opacity));
+      --un-bg-opacity: 0.15;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      border: none;
+    }
+
+    .scrollable-list {
+      max-height: 55vh;
+      overflow-y: auto;
+      border: #a9aeb5 4px dashed;
+      border-radius: 3px;
+    }
+
+    .scrollbar {
+      width: 10px;
+      height: 55vh;
+      margin: 0 auto;
+    }
+
+    .scrollable-list::-webkit-scrollbar {
+      /*滚动条整体样式*/
+      width: 10px;
+      /*高宽分别对应横竖滚动条的尺寸*/
+      height: 1px;
+    }
+
+    .scrollable-list::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      border-radius: 3px;
+      background: #cacdd1;
+    }
+
+    .scrollable-list::-webkit-scrollbar-track {
+      /*滚动条里面轨道*/
+      border-radius: 3px;
+      background: #f3f4f5;
+    }
+
+    .list-group-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      /* 或使用 'center'，视视觉需求而定 */
+    }
+
+    .message-content {
+      /* 根据需要添加样式 */
+    }
+
+    .message-timestamp {
+      margin-bottom: 8px;
+      /* 调整为所需的值 */
+      /* 根据需要添加样式 */
+    }
+  </style>
+</head>
+
+
+<body>
+  <div class="blur-background"></div>
+
+
+
+
+
+
+  <nav class="navbar custom-bg navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand custom-bg" href="{{ url_for('chat') }}"
+      style="font-family:'Jokerman'; font-size: 30px; color: black; font-weight: bold;">TalkUp</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link custom-bg" href="{{ url_for('keywords') }}">Keywords</a>
+        </li>
+      </ul>
+      {% if current_user.is_authenticated %}
+      <span class="navbar-text mr-3 custom-bg">Hello, {{ current_user.username }}</span>
+      {% endif %}
+      <form method="GET" class="form-inline">
+        <input class="form-control mr-2" type="search" name="search" placeholder="Search" aria-label="Search"
+          value="{{ request.args.get('search', '') }}">
+        <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <div class="container mt-5">
+          <div class="person">
+            <img id="teacherGIF" src="/static/GIF/shirley.gif" style="width: 350px; height: 510px;" />
+            <div class="person-hide "></div>
+          </div>
+          <nav class="nav">
+            Role
+            <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-1">
+            <label class="nav-item" for="nav-item-opt-mode-1">Parent</label>
+            <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-2" checked>
+            <label class="nav-item" for="nav-item-opt-mode-2">Teacher</label>
+            <input type="radio" name="nav-item-opt-mode" id="nav-item-opt-mode-3">
+            <label class="nav-item" for="nav-item-opt-mode-3">Friend</label>
+            <div class="tracker"></div>
+          </nav>
+        </div>
+      </div>
+      <div class="col">
+        <div style="display: flex; align-items: center; margin-top: 30px; margin-bottom: -30px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32">
+            <g fill="none">
+              <path fill="#F8312F"
+                d="M5 3.5a1.5 1.5 0 0 1-1 1.415V12l2.16 5.487L4 23c-1.1 0-2-.9-2-1.998v-7.004a2 2 0 0 1 1-1.728V4.915A1.5 1.5 0 1 1 5 3.5Zm25.05.05c0 .681-.44 1.26-1.05 1.468V12.2c.597.347 1 .994 1 1.73v7.01c0 1.1-.9 2-2 2l-2.94-5.68L28 11.93V5.018a1.55 1.55 0 1 1 2.05-1.468Z">
+              </path>
+              <path fill="#FFB02E"
+                d="M11 4.5A1.5 1.5 0 0 1 12.5 3h7a1.5 1.5 0 0 1 .43 2.938c-.277.082-.57.104-.847.186l-3.053.904l-3.12-.908c-.272-.08-.56-.1-.832-.18A1.5 1.5 0 0 1 11 4.5Z">
+              </path>
+              <path fill="#CDC4D6"
+                d="M22.05 30H9.95C6.66 30 4 27.34 4 24.05V12.03C4 8.7 6.7 6 10.03 6h11.95C25.3 6 28 8.7 28 12.03v12.03c0 3.28-2.66 5.94-5.95 5.94Z">
+              </path>
+              <path fill="#212121"
+                d="M9.247 18.5h13.506c2.33 0 4.247-1.919 4.247-4.25A4.257 4.257 0 0 0 22.753 10H9.247A4.257 4.257 0 0 0 5 14.25a4.257 4.257 0 0 0 4.247 4.25Zm4.225 7.5h5.056C19.34 26 20 25.326 20 24.5s-.66-1.5-1.472-1.5h-5.056C12.66 23 12 23.674 12 24.5s.66 1.5 1.472 1.5Z">
+              </path>
+              <path fill="#00A6ED"
+                d="M10.25 12C9.56 12 9 12.56 9 13.25v2.5a1.25 1.25 0 1 0 2.5 0v-2.5c0-.69-.56-1.25-1.25-1.25Zm11.5 0c-.69 0-1.25.56-1.25 1.25v2.5a1.25 1.25 0 1 0 2.5 0v-2.5c0-.69-.56-1.25-1.25-1.25Z">
+              </path>
+            </g>
+          </svg>
+          <span class="gpt-title"
+            style="font-family:'Jokerman';text-align: left; font-size: 25px; margin-left: 10px;">Talkup</span>
+          <span class="gpt-subtitle" style="text-align: left; font-size: 25px;">Demo</span>
+          <!-- start Quiz button -->
+          <div class="start_btn"><button>Start A Quiz</button></div>
+
+        </div>
+
+
+
+        <!-- Info Box -->
+        <div class="info_box">
+          <div class="info-title"><span>About the Quiz</span></div>
+          <div class="info-list">
+            <div class="info">1. The goal of this quiz is to enhanced the knowledge✒️ you have learnt.</div>
+            <div class="info">2. You will have only <span>15 seconds</span> per each question.</div>
+            <div class="info">3. Here are the knowledge we are going to cover, <span>do self-learning</span> if you are
+              not familiar with them</div>
+            <div class="info"> <span>- Verb tenses:</span> Focus on using the correct verb form for past, present and
+              future events.</div>
+            <div class="info"> <span>- Subject-verb agreement:</span> Practice matching subjects with the correct verb
+              form based on number (singular or plural).</div>
+            <div class="info"> <span>- Word order:</span> Review common sentence structures and the placement of words
+              and phrases.</div>
+            <div class="info"> <span>- Preposition usage:</span> Study the correct prepositions to use with verbs, nouns
+              and adjectives.</div>
+            <div class="info">After the quiz, you will get a personalise <span>study report 📄</span>.</div>
+          </div>
+          <div class="buttons">
+            <button class="quit">Exit Quiz</button>
+            <button class="restart">Continue</button>
+          </div>
+        </div>
+
+        <!-- Quiz Box -->
+        <div class="quiz_box">
+          <header>
+            <div class="title">Awesome Quiz Application</div>
+            <div class="timer">
+              <div class="time_left_txt">Time Left</div>
+              <div class="timer_sec">15</div>
+            </div>
+            <div class="time_line"></div>
+          </header>
+          <section>
+            <div class="que_text">
+              <!-- Here I've inserted question from JavaScript -->
+            </div>
+            <div class="option_list">
+              <!-- Here I've inserted options from JavaScript -->
+            </div>
+          </section>
+
+          <!-- footer of Quiz Box -->
+          <footer>
+            <div class="total_que">
+              <!-- Here I've inserted Question Count Number from JavaScript -->
+            </div>
+            <button class="next_btn">Next Que</button>
+          </footer>
+        </div>
+
+        <!-- Result Box -->
+        <div class="result_box">
+          <div class="icon">
+            <i class="fas fa-crown"></i>
+          </div>
+          <div class="complete_text">You've completed the Quiz!</div>
+          <div class="score_text">
+            <!-- Here I've inserted Score Result from JavaScript -->
+          </div>
+          <div class="buttons">
+            <button class="report">See my study report</button>
+          </div>
+        </div>
+
+        <div class="report_box">
+          {% if current_user.is_authenticated %}
+          <div class="report-title"><span>{{ current_user.username }}'s study report📄</span> <span id="close-report">X</span></div>
+          {% endif %}
+          <div class="info-list">
+            <div class="info"><span>Verb Tenses:</span> Steven frequently made errors with verb tenses. For example, he
+              said "Yesterday I go to the cinema" instead of "Yesterday I went to the cinema."</div>
+            <div class="info"><span>Subject-Verb Agreement:</span> Steven struggled with subject-verb agreement. He said
+              "The dogs doesn't bark" instead of "The dogs don't bark."</div>
+            <div class="info"><span>Word Order:</span> Steven occasionally misplaced words in his sentences. He said
+              "What you did yesterday?" instead of "What did you do yesterday?"</div>
+            <div class="info"><span>Preposition Usage:</span> Steven had difficulty using prepositions correctly. He
+              said "I'm going shopping Saturday" instead of "I'm going shopping on Saturday."</div>
+            <div class="info"><span>Recommendations:</span> Steven should practice verb tenses, subject-verb agreement,
+              sentence structure, and preposition usage to improve his grammar skills.</div>
+          </div>
+        </div>
+
+        <div class="container mt-5">
+          <ul class="list-group mb-4 scrollable-list">
+            {% for message in messages %}
+            <!-- 用户消息用 user-message 样式 -->
+            <li class="list-group-item user-message">
+              <div class="message-content"><span style="font-size: 25px; padding-top: 10px;">🧑 </span>{{
+                message.content }}</div>
+              <div class="message-timestamp"><span class="badge badge-primary">{{
+                  message.timestamp.strftime('%H:%M')}}</span></div>
+            </li>
+            {% for reply in message.replies %}
+            <li class="list-group-item system-reply">
+              <div class="message-content"><span style="font-size: 25px; margin-top: 10px;">🤖 </span>{{
+                reply.reply_content }}</div>
+              <div class="message-timestamp"><span class="badge badge-primary">{{
+                  reply.timestamp.strftime('%H:%M')}}</span></div>
+            </li>
+            {% endfor %}
+            {% endfor %}
+
+
+          </ul>
+
+
+
+          <form method="post">
+            {{ form.hidden_tag() }}
+            <div data-hk="s00-3-0" class="gen-text-wrapper ">
+              {{ form.content(class="form-control gen-textarea") }}
+              <!-- <textarea placeholder="Say something..." autocomplete="off" autofocus="" rows="1"
+                    class="gen-textarea"></textarea> -->
+              <button class="gen-slate-btn">Send</button>
+              <button id="start-record-btn" title="StartRec" class="gen-slate-btn">
+                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12 1C9.79086 1 8 2.79086 8 5V12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12V5C16 2.79086 14.2091 1 12 1ZM10 5C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5V12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12V5Z"
+                    fill="#000000" />
+                  <path
+                    d="M5 9C5.55228 9 6 9.44771 6 10V12C6 13.5913 6.63214 15.1174 7.75736 16.2426C8.88258 17.3679 10.4087 18 12 18C13.5913 18 15.1174 17.3679 16.2426 16.2426C17.3679 15.1174 18 13.5913 18 12V10C18 9.44771 18.4477 9 19 9C19.5523 9 20 9.44771 20 10V12C20 14.1217 19.1571 16.1566 17.6569 17.6569C16.3938 18.9199 14.7518 19.717 12.9981 19.9375C12.9993 19.9582 13 19.979 13 20V22C13 22.5523 12.5523 23 12 23C11.4477 23 11 22.5523 11 22V20C11 19.979 11.0006 19.9582 11.0019 19.9375C9.2482 19.717 7.60623 18.9199 6.34315 17.6569C4.84285 16.1566 4 14.1217 4 12V10C4 9.44771 4.44772 9 5 9Z"
+                    fill="#000000" />
+                </svg>
+              </button>
+              <button id="stop-record-btn" title="StopRec" class="gen-slate-btn">
+                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 1C13.6452 1 15.0585 1.99333 15.6728 3.41298L7.99997 11.0858V5C7.99997 2.79086 9.79083 1 12 1Z"
+                    fill="#000000" />
+                  <path
+                    d="M6.24997 12C6.24997 12.2632 6.26801 12.5245 6.30342 12.7823L4.25194 14.8338C3.92295 13.9344 3.74997 12.9761 3.74997 12V11.8438C3.74997 11.2915 4.19769 10.8438 4.74997 10.8438H5.24997C5.80226 10.8438 6.24997 11.2915 6.24997 11.8438V12Z"
+                    fill="#000000" />
+                  <path
+                    d="M7.3242 18.7971L3.76773 22.3535C3.3772 22.7441 2.74404 22.7441 2.35352 22.3535L1.64641 21.6464C1.25588 21.2559 1.25588 20.6227 1.64641 20.2322L20.2322 1.64644C20.6227 1.25591 21.2559 1.25591 21.6464 1.64644L22.3535 2.35354C22.744 2.74407 22.744 3.37723 22.3535 3.76776L16 10.1213V12C16 14.2091 14.2091 16 12 16C11.4457 16 10.9177 15.8873 10.4378 15.6835L9.13553 16.9857C9.99969 17.4822 10.986 17.75 12 17.75C13.525 17.75 14.9875 17.1442 16.0658 16.0659C17.1442 14.9875 17.75 13.525 17.75 12V11.8438C17.75 11.2915 18.1977 10.8438 18.75 10.8438H19.25C19.8023 10.8438 20.25 11.2915 20.25 11.8437V12C20.25 14.188 19.3808 16.2865 17.8336 17.8336C16.5842 19.0831 14.9753 19.8903 13.25 20.1548V23H10.75V20.1548C9.51944 19.9662 8.34812 19.5014 7.3242 18.7971Z"
+                    fill="#000000" />
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    const params = new URLSearchParams(window.location.search);
+    const teacher = params.get('teacher');
+    const gifElement = document.getElementById('teacherGIF');
+    gifElement.src = `/static/GIF/${teacher}.gif`;
+
+    const startRecordBtn = document.getElementById('start-record-btn');
+    const stopRecordBtn = document.getElementById('stop-record-btn');
+    const contentInput = document.querySelector('.gen-textarea');
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+
+    function scrollToBottom() {
+      var scrollableList = document.querySelector('.scrollable-list');
+      scrollableList.scrollTop = scrollableList.scrollHeight;
+    }
+
+    function isFocusInsideScrollableList() {
+      var scrollableList = document.querySelector('.scrollable-list');
+      return scrollableList.contains(document.activeElement);
+    }
+
+    setInterval(function () {
+      if (!isFocusInsideScrollableList()) {
+        scrollToBottom();
+      }
+    }, 10000);
+
+    recognition.lang = 'en-US';
+
+    startRecordBtn.addEventListener('click', () => {
+      console.log("text");
+      recognition.start();
+    });
+
+    stopRecordBtn.addEventListener('click', () => {
+      recognition.stop();
+    });
+
+    recognition.addEventListener('start', () => {
+      startRecordBtn.disabled = true;
+      stopRecordBtn.disabled = false;
+    });
+
+    recognition.addEventListener('end', () => {
+      startRecordBtn.disabled = false;
+      stopRecordBtn.disabled = true;
+    });
+
+    recognition.addEventListener('result', (event) => {
+      const text = event.results[0][0].transcript;
+
+      contentInput.value = text;
+    });
+
+    if ("{{ reply_content }}" && 'speechSynthesis' in window) {
+      var synthesis = window.speechSynthesis;
+      var utterance = new SpeechSynthesisUtterance("{{ reply_content }}");
+      utterance.lang = 'zh-CN';
+      synthesis.speak(utterance);
+    }
+
+    let tempGif = 1
+    const parent = document.querySelector('#nav-item-opt-mode-1')
+    // const teacher = document.querySelector('#nav-item-opt-mode-2')
+    const friend = document.querySelector('#nav-item-opt-mode-3')
+    const person = document.querySelector('.person')
+
+    const change = () => {
+      if (tempGif === 1) {
+        tempGif = 2;
+      } else {
+        tempGif = 1;
+      }
+    }
+
+    parent.addEventListener('click', () => {
+      change()
+      // print(tempGif)
+
+      person.src = `/static/GIF/老太太${tempGif}.gif`
+      setTimeout(() => {
+        // person.src = './../GIF/老太太静态.png'
+      }, 3000)
+    })
+
+    // teacher.addEventListener('click', () => {
+    //   change()
+    //   console.log('here')
+    //   person.src = `/static/GIF/老太太${tempGif}.gif`
+    //   setTimeout(() => {
+    //     // person.src = './../GIF/老太太静态.png'
+    //   }, 3000)
+    // })
+
+    friend.addEventListener('click', () => {
+      change()
+      // print(tempGif)
+      person.src = `/static/GIF/老太太${tempGif}.gif`
+      setTimeout(() => {
+        // person.src = './../GIF/老太太静态.png'
+      }, 3000)
+    })
+  </script>
+  <!-- Inside this JavaScript file I've inserted Questions and Options only -->
+  <script src="/static/questions.js"></script>
+
+  <!-- Inside this JavaScript file I've coded all Quiz Codes -->
+  <script src="/static/quiz.js"></script>
+</body>
+
+</html>
